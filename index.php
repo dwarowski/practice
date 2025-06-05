@@ -193,7 +193,7 @@
             <div class="input-container">
                 <label for="expDate">Expiration date</label>
                 <span class="error">*</span>
-                <input type="text" name="expDate" placeholder="MM/YYYY">
+                <input type="text" name="expDate" placeholder="MM/YY" value="<?php echo $expDate ?>">
             </div>
             <input type="submit" value="Send">
         </form>
