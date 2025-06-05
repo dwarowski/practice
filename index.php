@@ -216,7 +216,9 @@
     </div>
 
     <div class="backend-output">
-        <p> ccn: <?php echo $ccn ?></p>
+        <p> CCN: <?php echo $ccn ?></p>
+        <p> CVC/CVV: <?php echo $cvc ?></p>
+        <p> Expiration date: <?php echo $expDate ?></p>
     </div>
 </body>
 
