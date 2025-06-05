@@ -92,6 +92,7 @@
         $ccnPost = $_POST["ccn"];
         $ccnClean = cleanInputVar($ccnPost);
 
+        # Card Validation
         if (empty($ccnPost)) {
             $ccnError = "No card number found";
         } else if ($ccnClean == "") {
