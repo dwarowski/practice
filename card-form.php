@@ -33,6 +33,11 @@
             font-size: 26px;
         }
 
+        .form-header {
+            font-size: 28px;
+            text-align: center;
+        }
+
         form {
             display: flex;
             flex-direction: column;
@@ -60,6 +65,19 @@
             background-color: #007bff;
             color: white;
             border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            background-color:rgb(255, 255, 255);
+            border-color: #007bff;
+            color: #007bff;
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
@@ -216,6 +234,7 @@
 
 
     <div class="form-container">
+        <p class="form-header">Donate to our mail service</p>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="input-container">
                 <label for="ccn">Card number</label>
@@ -237,7 +256,8 @@
                 <input type="text" name="expDate" placeholder="MM/YY" value="<?php echo $tempDate ?>">
                 <span class="error"><?php echo $expDateError ?></span>
             </div>
-            <input type="submit" value="Send">
+            <input type="submit" value="Pay">
+            <input type="button" value="No, Thanks:(" onclick="location.href='index.php'">
         </form>
     </div>
 
