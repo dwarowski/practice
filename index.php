@@ -83,19 +83,24 @@
     # Error output var
     $ccnError = "";
     $cvcError = "";
+    $expDateError = "";
     # Card type output var like Visa, Mastercard etc.
     $cardType = "";
     # Card number value
     $ccn = "";
     # CVC/CVV number
     $cvc = "";
+    # Card expiration date
+    $expDate = "";
 
     # Check if something posted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ccnPost = $_POST["ccn"];
         $cvcPost = $_POST["cvc"];
+        $expDatePost = $_POST["expDate"];
         $ccnClean = cleanInputVar($ccnPost);
         $cvcClean = cleanInputVar($cvcPost);
+        $expDateClean = cleanInputVar($expDatePost);
 
         # Card Validation
         if (empty($ccnPost)) {
@@ -120,6 +125,17 @@
             $cvcError = "Invalid CVC/CVV";
         } else {
             $cvc = $cvcClean;
+        }
+
+        # Expiration date validation
+        if (empty($expDatePost)) {
+            $expDateError = " No exp. date found";
+        } else if ($expDateClean == "") {
+            $expDateError = " Exp. date invalid";
+        } else if (!preg_match("/^(0[1-9]|1[12])[0-9]{2}$/", $expDateClean)) {
+            $expDateError = " Exp. date invalid";
+        } else {
+            $expDate = $expDateClean;
         }
     }
 
@@ -194,6 +210,7 @@
                 <label for="expDate">Expiration date</label>
                 <span class="error">*</span>
                 <input type="text" name="expDate" placeholder="MM/YY" value="<?php echo $expDate ?>">
+                <span class="error"><?php echo $expDateError ?></span>
             </div>
             <input type="submit" value="Send">
         </form>
