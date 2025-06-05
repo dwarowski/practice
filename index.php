@@ -83,6 +83,10 @@
     $ccnError = "";
     $cvcError = "";
     $expDateError = "";
+    # Valid vars
+    $isCardValid = false;
+    $isCVCValid = false;
+    $isDateValid = false;
     # Card type output var like Visa, Mastercard etc.
     $cardType = "";
     # Card number value
@@ -111,8 +115,7 @@
         } else if (checkCardType($ccnClean) == "") {
             $ccnError = "Invalid card number";
         } else {
-            $cardType = checkCardType($ccnClean);
-            $ccn = $ccnClean;
+            $isCardValid = true;
         }
 
         # CVC/CVV validation
@@ -123,7 +126,7 @@
         } else if (!preg_match("/^[0-9]{3}$/", $cvcClean)) {
             $cvcError = "Invalid CVC/CVV";
         } else {
-            $cvc = $cvcClean;
+            $isCVCValid = true;
         }
 
         # Expiration date validation
@@ -134,6 +137,14 @@
         } else if (!preg_match("/^(0[1-9]|1[12])[0-9]{2}$/", $expDateClean)) {
             $expDateError = " Exp. date invalid";
         } else {
+            $isDateValid = true;
+        }
+
+        # Send data when form complete 
+        if ($isCardValid && $isCVCValid && $isDateValid) {
+            $cardType = checkCardType($ccnClean);
+            $ccn = $ccnClean;
+            $cvc = $cvcClean;
             $expDate = $expDateClean;
         }
     }
