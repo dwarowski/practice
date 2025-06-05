@@ -83,10 +83,18 @@
     $ccnError = "";
     $cvcError = "";
     $expDateError = "";
+
     # Valid vars
     $isCardValid = false;
     $isCVCValid = false;
     $isDateValid = false;
+
+    # Temp Output
+    $tempCCN = "";
+    $tempCVC = "";
+    $tempDate = "";
+    $tempCardType = "";
+
     # Card type output var like Visa, Mastercard etc.
     $cardType = "";
     # Card number value
@@ -116,6 +124,8 @@
             $ccnError = "Invalid card number";
         } else {
             $isCardValid = true;
+            $tempCardType = checkCardType($ccnClean);
+            $tempCCN = $ccnClean;
         }
 
         # CVC/CVV validation
@@ -127,6 +137,7 @@
             $cvcError = "Invalid CVC/CVV";
         } else {
             $isCVCValid = true;
+            $tempCVC = $cvcClean;
         }
 
         # Expiration date validation
@@ -134,18 +145,22 @@
             $expDateError = " No exp. date found";
         } else if ($expDateClean == "") {
             $expDateError = " Exp. date invalid";
-        } else if (!preg_match("/^(0[1-9]|1[12])[0-9]{2}$/", $expDateClean)) {
+        } else if (!preg_match("/^(0[1-9]|1[12])(?:[0-9]{2})?[0-9]{2}$/", $expDateClean)) {
             $expDateError = " Exp. date invalid";
         } else {
             $isDateValid = true;
+            $expMonth = substr($expDateClean, 0, 2);
+            $expDateYear = substr($expDateClean, -2, 2);
+            $expDateClean =  "$expMonth/$expDateYear";
+            $tempDate = $expDateClean;
         }
 
-        # Send data when form complete 
+        # Send and set data when form complete 
         if ($isCardValid && $isCVCValid && $isDateValid) {
-            $cardType = checkCardType($ccnClean);
-            $ccn = $ccnClean;
-            $cvc = $cvcClean;
-            $expDate = $expDateClean;
+            $cardType =  $tempCardType = checkCardType($ccnClean);
+            $ccn =  $tempCCN = $ccnClean;
+            $cvc = $tempCVC = $cvcClean;
+            $expDate = $tempDate = $expDateClean;
         }
     }
 
@@ -206,20 +221,20 @@
                 <label for="ccn">Card number</label>
                 <span class="error">*</span>
                 <input type="text" name="ccn" autocomplete="cc-number"
-                    placeholder="0123 4567 8901 2345" value="<?php echo $ccn ?>">
-                <span> <?php echo $cardType; ?></span>
+                    placeholder="0123 4567 8901 2345" value="<?php echo $tempCCN ?>">
+                <span> <?php echo $tempCardType; ?></span>
                 <span class="error"><?php echo $ccnError ?></span>
             </div>
             <div class="input-container">
                 <label for="cvc">CVV/CVC</label>
                 <span class="error">*</span>
-                <input type="text" name="cvc" placeholder="123" value="<?php echo $cvc ?>">
+                <input type="text" name="cvc" placeholder="123" value="<?php echo $tempCVC ?>">
                 <span class="error"><?php echo $cvcError ?></span>
             </div>
             <div class="input-container">
                 <label for="expDate">Expiration date</label>
                 <span class="error">*</span>
-                <input type="text" name="expDate" placeholder="MM/YY" value="<?php echo $expDate ?>">
+                <input type="text" name="expDate" placeholder="MM/YY" value="<?php echo $tempDate ?>">
                 <span class="error"><?php echo $expDateError ?></span>
             </div>
             <input type="submit" value="Send">
