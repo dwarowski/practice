@@ -30,7 +30,6 @@
 
         .backend-output {
             text-align: center;
-            margin-top: 250px;
             font-size: 26px;
         }
 
