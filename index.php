@@ -82,15 +82,20 @@
 
     # Error output var
     $ccnError = "";
+    $cvcError = "";
     # Card type output var like Visa, Mastercard etc.
     $cardType = "";
     # Card number value
     $ccn = "";
+    # CVC/CVV number
+    $cvc = "";
 
     # Check if something posted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ccnPost = $_POST["ccn"];
+        $cvcPost = $_POST["cvc"];
         $ccnClean = cleanInputVar($ccnPost);
+        $cvcClean = cleanInputVar($cvcPost);
 
         # Card Validation
         if (empty($ccnPost)) {
@@ -104,6 +109,17 @@
         } else {
             $cardType = checkCardType($ccnClean);
             $ccn = $ccnClean;
+        }
+
+        # CVC/CVV validation
+        if (empty($cvcPost)) {
+            $cvcError = "No CVC/CVV found";
+        } else if ($cvcClean == "") {
+            $cvcError = "Invalid CVC/CVV";
+        } else if (!preg_match("/^[0-9]{3}$/", $cvcClean)) {
+            $cvcError = "Invalid CVC/CVV";
+        } else {
+            $cvc = $cvcClean;
         }
     }
 
@@ -171,7 +187,8 @@
             <div class="input-container">
                 <label for="cvc">CVV/CVC</label>
                 <span class="error">*</span>
-                <input type="text" name="cvc" placeholder="123">
+                <input type="text" name="cvc" placeholder="123" value="<?php echo $cvc ?>">
+                <span class="error"><?php echo $cvcError ?></span>
             </div>
             <div class="input-container">
                 <label for="expDate">Expiration date</label>
