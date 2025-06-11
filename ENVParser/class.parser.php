@@ -9,7 +9,7 @@ class Parser
             if (strpos(trim($line), "#") === 0) {
                 continue; # Comments skip
             }
-            list($name, $value) = explode("=", $line, 2);
+            [$name, $value] = explode("=", $line, 2);
             $name = trim($name);
             $value = trim($value);
             $value = trim($value, "\"");
