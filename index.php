@@ -159,7 +159,7 @@
             "valid" => $isSubjectValid,
             "output" => $subject,
             "errorMsg" => $subjectError
-        ] = InputValidation::validate($_POST["subject"], "/\S+/", "subject");
+        ] = InputValidation::validate($_POST["subject"], "/^\S+$/", "subject");
 
         # Email validation
         [
