@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 /**
  * Class to validate input values from html form 
  */
