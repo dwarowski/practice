@@ -15,9 +15,8 @@ class InputValidation
     {
         # Clean whitespaces and html symbols
         $cleanInput = trim($input);
-        $cleanInput = stripslashes($input);
-        $cleanInput = htmlspecialchars($input);
-
+        $cleanInput = stripslashes($cleanInput);
+        $cleanInput = htmlspecialchars($cleanInput);
         # Validations
         if (empty($cleanInput)) {
             return ["valid" => false, "output" => "", "errorMsg" => "$type is empty"];
