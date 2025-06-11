@@ -135,24 +135,14 @@
     $envArray = Parser::parseEnv(__DIR__ . '\.env');
 
     # Status vars
-    $isNameValid = false;
-    $isMailVaild = false;
-    $isMessageValid = false;
-    $isSubjectValid = false;
-
+    $isNameValid = $isMailVaild = $isMessageValid = $isSubjectValid = false;
     $isSend = "";
 
     # Error vars
-    $emailError = "";
-    $nameError = "";
-    $messageError = "";
-    $subjectError = "";
+    $emailError = $nameError = $messageError = $subjectError = "";
 
     # Values
-    $email = "";
-    $name = "";
-    $message = "";
-    $subject = "";
+    $email = $name = $message = $subject = "";
 
     # Check if form was send
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
