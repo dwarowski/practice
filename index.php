@@ -240,14 +240,21 @@
 
             # Trying to send
             $mail->send();
-            return "<script>alert('Message Send');</script>";
+            return true;
         } catch (Exception $e) {
-            return "<script>alert('Error: $mail->ErrorInfo');</script>";
+            return false;
         }
     }
     ?>
 
-    <?php echo $isSend ?>
+    <?php
+    if ($isSend) {
+        echo "<script>";
+        echo "alert('Message Send');";
+        echo 'window.location.href = "card-form.php"';
+        echo "</script>";
+    }
+    ?>
 
     <div class="message-form-container">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
