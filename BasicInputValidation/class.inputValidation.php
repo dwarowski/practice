@@ -1,4 +1,7 @@
 <?php
+/**
+ * Class to validate input values from html form 
+ */
 class InputValidation
 {
     public static function validate($input, $regex, $type)
