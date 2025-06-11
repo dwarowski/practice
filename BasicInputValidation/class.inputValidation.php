@@ -11,7 +11,7 @@ class InputValidation
      * @param string $type
      * @return array{errorMsg: string, output: string, valid: bool}
      */
-    public static function validate(string $input, string $regex, string $type): array 
+    public static function validate(string $input, string $regex, string $type): array
     {
         # Clean whitespaces and html symbols
         $cleanInput = trim($input);
@@ -21,12 +21,11 @@ class InputValidation
         # Validations
         if (empty($cleanInput)) {
             return ["valid" => false, "output" => "", "errorMsg" => "$type is empty"];
-        } else if ($cleanInput == "") {
-            return ["valid" => false, "output" => "", "errorMsg" => "Invalid $type"];
-        } else if (!preg_match($regex, $cleanInput)) {
-            return ["valid" => false, "output" => "", "errorMsg" => "Invalid $type"];
-        } else {
-            return ["valid" => true, "output" =>  $cleanInput, "errorMsg" => ""];
         }
+        if (!preg_match($regex, $cleanInput)) {
+            return ["valid" => false, "output" => "", "errorMsg" => "Invalid $type"];
+        }
+
+        return ["valid" => true, "output" =>  $cleanInput, "errorMsg" => ""];
     }
 }
