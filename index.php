@@ -192,7 +192,15 @@
         }
     }
 
-    # Send email function
+    /**
+     * Send email function
+     * @param mixed $emailAddres
+     * @param mixed $name
+     * @param mixed $message
+     * @param mixed $subject
+     * @param mixed $attachment
+     * @return string containing alert script
+     */
     function sendEmail($emailAddres, $name, $message, $subject, $attachment)
     {
         # Define env variables
