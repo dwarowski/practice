@@ -10,7 +10,7 @@ class Parser
      * @throws \Exception
      * @return string[]
      */
-    public static function parseEnv(string $path)
+    public static function parseEnv(string $path): array
     {
         # Clear whitespaces
         $envPath = trim($path);

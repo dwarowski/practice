@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Class to validate input values from html form 
  */
@@ -11,7 +13,7 @@ class InputValidation
      * @param string $type
      * @return array{errorMsg: string, output: string, valid: bool}
      */
-    public static function validate(string $input, string $regex, string $type)
+    public static function validate(string $input, string $regex, string $type): array 
     {
         # Clean whitespaces and html symbols
         $cleanInput = trim($input);
