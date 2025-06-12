@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>Practice</title>
     <style>
         .error {
@@ -299,7 +300,7 @@
             <input type="file" name="userfile[]" multiple="multiple">
             <input type="submit" name="send" value="Send">
         </form>
-        <span class="error"><?php echo $sendError?></span>
+        <span class="error"><?php echo $sendError ?></span>
     </div>
 </body>
 
