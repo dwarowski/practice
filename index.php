@@ -125,14 +125,14 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    require "PHPMailer\src\Exception.php";
-    require "PHPMailer\src\PHPMailer.php";
-    require "PHPMailer\src\SMTP.php";
-    require_once "ENVParser\class.parser.php";
-    require_once "BasicInputValidation\class.inputValidation.php";
+    require "PHPMailer/src/Exception.php";
+    require "PHPMailer/src/PHPMailer.php";
+    require "PHPMailer/src/SMTP.php";
+    require_once "ENVParser/class.parser.php";
+    require_once "BasicInputValidation/class.inputValidation.php";
 
     # Read env file
-    $envArray = Parser::parseEnv(__DIR__ . '\.env');
+    $envArray = Parser::parseEnv(__DIR__ . '/.env');
 
     # Status vars
     $isNameValid = $isMailVaild = $isMessageValid = $isSubjectValid = $isSend = false;
