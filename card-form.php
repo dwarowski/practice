@@ -112,8 +112,6 @@
 
     # Temp Output
     $tempCCN = "";
-    $tempCVC = "";
-    $tempDate = "";
     $tempCardType = "";
 
     # Card type output var like Visa, Mastercard etc.
@@ -170,8 +168,6 @@
         if ($isCardValid && $isCVCValid && $isDateValid) {
             $cardType =  $tempCardType = checkCardType($ccnClean);
             $ccn =  $tempCCN = $ccnClean;
-            $cvc = $tempCVC = $cvcClean;
-            $expDate = $tempDate = $expDateClean;
         }
     }
 
