@@ -98,7 +98,7 @@
     <?php
 
     # Imports 
-    require_once "BasicInputValidation\class.inputValidation.php";
+    require_once "BasicInputValidation/class.inputValidation.php";
 
     # Error output var
     $ccnError = $cvcError = $expDateError = "";
