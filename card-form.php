@@ -103,7 +103,7 @@
     # Error output var
     $ccnError = $cvcError = $expDateError = "";
 
-    # Valid vars
+    # Validation vars
     $isCardValid = $isCVCValid = $isDateValid = false;
 
     # Card number/type, cvc and expiration date vars
@@ -129,7 +129,6 @@
         if ($isCardValid) {
             $cardType = checkCardType($ccn);
         }
-
 
         # CVC/CVV validation
         [
