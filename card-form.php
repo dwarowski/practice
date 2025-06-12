@@ -101,27 +101,17 @@
     require_once "BasicInputValidation\class.inputValidation.php";
 
     # Error output var
-    $ccnError = "";
-    $cvcError = "";
-    $expDateError = "";
+    $ccnError = $cvcError = $expDateError = "";
 
     # Valid vars
-    $isCardValid = false;
-    $isCVCValid = false;
-    $isDateValid = false;
+    $isCardValid = $isCVCValid = $isDateValid = false;
 
     # Temp Output
     $tempCCN = "";
     $tempCardType = "";
 
-    # Card type output var like Visa, Mastercard etc.
-    $cardType = "";
-    # Card number value
-    $ccn = "";
-    # CVC/CVV number
-    $cvc = "";
-    # Card expiration date
-    $expDate = "";
+    # Card number/type, cvc and expiration date vars
+    $cardType = $ccn = $cvc = $expDate = "";
 
     # Check if something posted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
