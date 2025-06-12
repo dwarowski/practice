@@ -106,32 +106,30 @@
     # Valid vars
     $isCardValid = $isCVCValid = $isDateValid = false;
 
-    # Temp Output
-    $tempCCN = "";
-    $tempCardType = "";
-
     # Card number/type, cvc and expiration date vars
     $cardType = $ccn = $cvc = $expDate = "";
 
     # Check if something posted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $ccnPost = $_POST["ccn"];
-        $ccnClean = cleanInputVar($ccnPost);
 
         # Card Validation
-        if (empty($ccnPost)) {
-            $ccnError = "No card number found";
-        } else if ($ccnClean == "") {
-            $ccnError = "Invalid card number";
-        } else if (checkCardSum($ccnClean)) {
-            $ccnError = "Invalid card checksum";
-        } else if (checkCardType($ccnClean) == "") {
-            $ccnError = "Invalid card number";
-        } else {
-            $isCardValid = true;
-            $tempCardType = checkCardType($ccnClean);
-            $tempCCN = $ccnClean;
+        [
+            "errorMsg"  => $ccnError,
+            "output" => $ccn,
+            "valid" => $isCardValid
+        ] = InputValidation::validate($_POST["ccn"], "/^\d+$/", "Card Number");
+
+        # Check card by Luhn algorithm
+        if (!checkCardSum($ccn)) {
+            $ccnError = "Invalid card";
+            $isCardValid = false;
         }
+
+        # Set card type 
+        if ($isCardValid) {
+            $cardType = checkCardType($ccn);
+        }
+
 
         # CVC/CVV validation
         [
@@ -146,40 +144,23 @@
             "output" => $expDate,
             "valid"  => $isDateValid
         ] = InputValidation::validate($_POST["expDate"], "/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/", "Expiration date");
-        
+
         # Pretty output for date
         if ($isDateValid) {
             $expMonth = substr($expDate, 0, 2);
             $expDateYear = substr($expDate, -2, 2);
             $expDate =  "$expMonth/$expDateYear";
         }
-
-        # Send and set data when form complete 
-        if ($isCardValid && $isCVCValid && $isDateValid) {
-            $cardType =  $tempCardType = checkCardType($ccnClean);
-            $ccn =  $tempCCN = $ccnClean;
-        }
-    }
-
-    # Validate input string from xss and make it only contain number
-    function cleanInputVar($data)
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        $data = preg_replace("/\D/", "", $data);
-        return $data;
     }
 
     # Check final sum of card number (Luhn Algorithm)
     function checkCardSum($data)
     {
         $sum = 0;
-        $dataLen = strlen($data);
-        $parity = $dataLen % 2;
-        for ($i = 0; $i < $dataLen - 1; $i++) {
+        $data = strrev($data);
+        for ($i = 0; $i < strlen($data); $i++) {
             $digit = $data[$i];
-            if ($i % 2 == $parity) {
+            if ($i % 2 != 0) {
                 $digit *= 2;
                 if ($digit > 9) {
                     $digit -= 9;
@@ -219,8 +200,8 @@
                 <label for="ccn">Card number</label>
                 <span class="error">*</span>
                 <input type="text" name="ccn" autocomplete="cc-number"
-                    placeholder="0123 4567 8901 2345" value="<?php echo $tempCCN ?>">
-                <span> <?php echo $tempCardType; ?></span>
+                    placeholder="0123 4567 8901 2345" value="<?php echo $ccn ?>">
+                <span> <?php echo $cardType; ?></span>
                 <span class="error"><?php echo $ccnError ?></span>
             </div>
             <div class="input-container">
