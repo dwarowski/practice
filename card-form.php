@@ -158,6 +158,8 @@
             "output" => $expDate,
             "valid"  => $isDateValid
         ] = InputValidation::validate($_POST["expDate"], "/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/", "Expiration date");
+
+        # Pretty output for date
         if ($isDateValid) {
             $expMonth = substr($expDate, 0, 2);
             $expDateYear = substr($expDate, -2, 2);
