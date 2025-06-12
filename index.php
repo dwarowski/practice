@@ -272,7 +272,7 @@
                 <div class="credentials-container">
                     <div class="input-container">
                         <label for="name">Name:</label>
-                        <input type="text" name="name" value="<?php echo $name ?>" placeholder="Your name">
+                        <input type="text" name="name" value="<?php echo $name ?>" placeholder="Name">
                         <span class="error">*</span>
                     </div>
                     <span class="error"> <?php echo $nameError ?> </span>
