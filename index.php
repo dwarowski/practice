@@ -135,11 +135,10 @@
     $envArray = Parser::parseEnv(__DIR__ . '\.env');
 
     # Status vars
-    $isNameValid = $isMailVaild = $isMessageValid = $isSubjectValid = false;
-    $isSend = "";
+    $isNameValid = $isMailVaild = $isMessageValid = $isSubjectValid = $isSend = false;
 
     # Error vars
-    $emailError = $nameError = $messageError = $subjectError = "";
+    $emailError = $nameError = $messageError = $subjectError = $sendError = "";
 
     # Values
     $email = $name = $message = $subject = "";
@@ -189,6 +188,9 @@
         # Send message if everything valid
         if ($isMailVaild && $isNameValid && $isMessageValid && $isSubjectValid) {
             $isSend = sendEmail($email, $name, $message, $subject, $_FILES["userfile"]);
+            if (!$isSend) {
+                $sendError = "Something went wrong";
+            }
         }
     }
 
@@ -242,6 +244,8 @@
             $mail->send();
             return true;
         } catch (Exception $e) {
+            $err = json_encode($mail->ErrorInfo);
+            echo "<script>console.log('$err');</script>";
             return false;
         }
     }
@@ -295,6 +299,7 @@
             <input type="file" name="userfile[]" multiple="multiple">
             <input type="submit" name="send" value="Send">
         </form>
+        <span class="error"><?php echo $sendError?></span>
     </div>
 </body>
 
