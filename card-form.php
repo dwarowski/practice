@@ -153,8 +153,12 @@
         }
     }
 
-    # Check final sum of card number (Luhn Algorithm)
-    function checkCardSum($data)
+    /**
+     * Check final sum of card number (Luhn Algorithm)
+     * @param string $data
+     * @return bool
+     */
+    function checkCardSum(string $data): bool
     {
         $sum = 0;
         $data = strrev($data);
@@ -171,8 +175,12 @@
         return $sum % 10 == 0;
     }
 
-    # Define and check card type
-    function checkCardType($data)
+    /**
+     * Check card type by regex pattern
+     * @param string $data
+     * @return string
+     */
+    function checkCardType(string $data): string
     {
         $pattrens = [
             "Visa" => "/^4[0-9]{12}(?:[0-9]{3})?$/",
