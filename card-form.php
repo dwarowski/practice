@@ -75,7 +75,7 @@
         input[type="button"] {
             width: 100%;
             padding: 10px;
-            background-color:rgb(255, 255, 255);
+            background-color: rgb(255, 255, 255);
             border-color: #007bff;
             color: #007bff;
             border-radius: 4px;
@@ -96,6 +96,9 @@
 
 <body>
     <?php
+
+    # Imports 
+    require_once "BasicInputValidation\class.inputValidation.php";
 
     # Error output var
     $ccnError = "";
@@ -125,11 +128,7 @@
     # Check if something posted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ccnPost = $_POST["ccn"];
-        $cvcPost = $_POST["cvc"];
-        $expDatePost = $_POST["expDate"];
         $ccnClean = cleanInputVar($ccnPost);
-        $cvcClean = cleanInputVar($cvcPost);
-        $expDateClean = cleanInputVar($expDatePost);
 
         # Card Validation
         if (empty($ccnPost)) {
@@ -147,30 +146,22 @@
         }
 
         # CVC/CVV validation
-        if (empty($cvcPost)) {
-            $cvcError = "No CVC/CVV found";
-        } else if ($cvcClean == "") {
-            $cvcError = "Invalid CVC/CVV";
-        } else if (!preg_match("/^[0-9]{3}$/", $cvcClean)) {
-            $cvcError = "Invalid CVC/CVV";
-        } else {
-            $isCVCValid = true;
-            $tempCVC = $cvcClean;
-        }
+        [
+            "errorMsg"  => $cvcError,
+            "output" => $cvc,
+            "valid" => $isCVCValid
+        ] = InputValidation::validate($_POST["cvc"], "/^[0-9]{3}$/", "CVC/CVV");
 
         # Expiration date validation
-        if (empty($expDatePost)) {
-            $expDateError = " No exp. date found";
-        } else if ($expDateClean == "") {
-            $expDateError = " Exp. date invalid";
-        } else if (!preg_match("/^(0[1-9]|1[12])(?:[0-9]{2})?[0-9]{2}$/", $expDateClean)) {
-            $expDateError = " Exp. date invalid";
-        } else {
-            $isDateValid = true;
-            $expMonth = substr($expDateClean, 0, 2);
-            $expDateYear = substr($expDateClean, -2, 2);
-            $expDateClean =  "$expMonth/$expDateYear";
-            $tempDate = $expDateClean;
+        [
+            "errorMsg" => $expDateError,
+            "output" => $expDate,
+            "valid"  => $isDateValid
+        ] = InputValidation::validate($_POST["expDate"], "/^(0[1-9]|1[12])(?:\/)?(?:[0-9]{2})?[0-9]{2}$/", "Expiration date");
+        if ($isDateValid) {
+            $expMonth = substr($expDate, 0, 2);
+            $expDateYear = substr($expDate, -2, 2);
+            $expDate =  "$expMonth/$expDateYear";
         }
 
         # Send and set data when form complete 
@@ -247,13 +238,13 @@
             <div class="input-container">
                 <label for="cvc">CVV/CVC</label>
                 <span class="error">*</span>
-                <input type="text" name="cvc" placeholder="123" value="<?php echo $tempCVC ?>">
+                <input type="text" name="cvc" placeholder="123" value="<?php echo $cvc ?>">
                 <span class="error"><?php echo $cvcError ?></span>
             </div>
             <div class="input-container">
                 <label for="expDate">Expiration date</label>
                 <span class="error">*</span>
-                <input type="text" name="expDate" placeholder="MM/YY" value="<?php echo $tempDate ?>">
+                <input type="text" name="expDate" placeholder="MM/YY" value="<?php echo $expDate ?>">
                 <span class="error"><?php echo $expDateError ?></span>
             </div>
             <input type="submit" value="Pay">
