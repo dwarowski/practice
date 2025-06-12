@@ -156,7 +156,7 @@
             "output" => $expDate,
             "valid"  => $isDateValid
         ] = InputValidation::validate($_POST["expDate"], "/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/", "Expiration date");
-
+        
         # Pretty output for date
         if ($isDateValid) {
             $expMonth = substr($expDate, 0, 2);
@@ -251,9 +251,9 @@
     </div>
 
     <div class="backend-output">
-        <p> CCN: <?php echo $ccn ?></p>
-        <p> CVC/CVV: <?php echo $cvc ?></p>
-        <p> Expiration date: <?php echo $expDate ?></p>
+        <p> CCN: <?php if ($isCardValid && $isCVCValid && $isDateValid) echo $ccn ?></p>
+        <p> CVC/CVV: <?php if ($isCardValid && $isCVCValid && $isDateValid) echo $cvc ?></p>
+        <p> Expiration date: <?php if ($isCardValid && $isCVCValid && $isDateValid) echo $expDate ?></p>
     </div>
 </body>
 
